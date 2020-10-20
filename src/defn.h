@@ -13,4 +13,5 @@
 int processline(char *line, int infd, int outfd);
 char **arg_parse(char *line, int *argcptr);
 int removeComments(char *line);
+int execbi(int argc, char **argv);
 void handlesig(int signal);

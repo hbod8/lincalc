@@ -201,6 +201,15 @@ int removeComments(char *line) {
   return 0;
 }
 
+/* Run command (execute built-in)
+ *
+ * Runs command based on first string
+ * 
+ */
+int execbi(int argc, char **argv) {
+
+}
+
 
 /* Handle signals
  *
