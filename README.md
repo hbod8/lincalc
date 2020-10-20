@@ -6,6 +6,10 @@ A simple calculator for performing operations on matricies.
 - Display matrix structures in the command line.
 - Create a way to pivot on a given position.
 
+## Structure:
+
+The code base will be stored in src/ and all commands given to lincalc will be in separate c files.
+
 ## Basic use cases:
 
 **Title:** User loads a matrix from a csv file
