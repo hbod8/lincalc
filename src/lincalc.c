@@ -213,7 +213,6 @@ int removeComments(char *line) {
  * 
  */
 int execbi(int argc, char **argv) {
-  printf("Trying to exec \"%s\"\n", argv[0]);
   /* loop thorugh availible commands */
   int matches = navailcmd;
   int pos = 0;
@@ -221,19 +220,16 @@ int execbi(int argc, char **argv) {
     matches = 0;
     pos++;
     for (int ccmd = 0; ccmd < navailcmd; ccmd++) {
-      printf("testing if \"%s\" matches \"%s\"\n", availcmd[ccmd].name, argv[0]);
       if (strncmp(availcmd[ccmd].name, argv[0], pos) == 0) {
         matches++;
-        printf("\"%s\" substr match with \"%s\"\n", argv[0], availcmd[ccmd].name);
       }
     }
   }
   if (matches == 1) {
     for (int ccmd = 0; ccmd < navailcmd; ccmd++) {
       if (strncmp(availcmd[ccmd].name, argv[0], pos) == 0) {
-        printf("%s\n", availcmd[ccmd].name);
         /* execute command */
-        // availcmd[ccmd].exec(argc, argv);
+        availcmd[ccmd].exec(argc, argv);
       }
     }
   } else if (matches > 1) {
