@@ -24,7 +24,16 @@
 int exitval;
 FILE *infile;
 
+/* struct of available commands */
+struct bi availcmd[] = {
+  { .name = "quit", .exec = quitlc },
+  { .name = "testable", .exec = quitlc },
+  { .name = "testing", .exec = quitlc },
+};
+int navailcmd = sizeof(availcmd) / sizeof(availcmd[0]);
+
 int main(int argc, char **argv) {
+
   /* Handle signals */
   signal(SIGINT, handlesig);
 
@@ -84,12 +93,8 @@ int processline(char *line, int infd, int outfd) {
     return -1;
   }
 
-  /* Do the job. @TODO */
-  
-  for (int i = 0; i < argc; i++) {
-    printf("[%s] ", argv[i]);
-  }
-  printf("\n");
+  /* Do the job. */
+  execbi(argc, argv);
 
   return 0;
 }
@@ -183,6 +188,7 @@ char **arg_parse(char *line, int *argcptr) {
 /* Remove comments
  * 
  * Removes all text following a '#' in a single line.
+ * 
  */
 int removeComments(char *line) {
   char *ptr = line;
@@ -207,9 +213,55 @@ int removeComments(char *line) {
  * 
  */
 int execbi(int argc, char **argv) {
-
+  printf("Trying to exec \"%s\"\n", argv[0]);
+  /* loop thorugh availible commands */
+  int matches = navailcmd;
+  int pos = 0;
+  while (matches > 1 && pos < strlen(argv[0])) {
+    matches = 0;
+    pos++;
+    for (int ccmd = 0; ccmd < navailcmd; ccmd++) {
+      printf("testing if \"%s\" matches \"%s\"\n", availcmd[ccmd].name, argv[0]);
+      if (strncmp(availcmd[ccmd].name, argv[0], pos) == 0) {
+        matches++;
+        printf("\"%s\" substr match with \"%s\"\n", argv[0], availcmd[ccmd].name);
+      }
+    }
+  }
+  if (matches == 1) {
+    for (int ccmd = 0; ccmd < navailcmd; ccmd++) {
+      if (strncmp(availcmd[ccmd].name, argv[0], pos) == 0) {
+        printf("%s\n", availcmd[ccmd].name);
+        /* execute command */
+        // availcmd[ccmd].exec(argc, argv);
+      }
+    }
+  } else if (matches > 1) {
+    printf("Unknown command.\nDid you mean:\n");
+    for (int ccmd = 0; ccmd < navailcmd; ccmd++) {
+      if (strncmp(availcmd[ccmd].name, argv[0], pos) == 0) {
+        printf("%s\n", availcmd[ccmd].name);
+      }
+    }
+  } else {
+    printf("Unknown command.\n");
+  }
+  return 0;
 }
 
+/* Exit
+ *
+ * Exits lincalc.
+ * 
+ */
+void quitlc(int argc, char **argv) {
+  if (argc == 1) {
+    exit(0);
+  } else if (argc > 1) {
+    exit(atoi(argv[1]));
+  }
+  return;
+}
 
 /* Handle signals
  *
