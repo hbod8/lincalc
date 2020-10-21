@@ -27,8 +27,9 @@ FILE *infile;
 /* struct of available commands */
 struct bi availcmd[] = {
   { .name = "quit", .exec = quitlc },
-  { .name = "testable", .exec = quitlc },
-  { .name = "testing", .exec = quitlc },
+  { .name = "load", .exec = loadvar },
+  { .name = "display", .exec = displayvar },
+  { .name = "print", .exec = displayvar }
 };
 int navailcmd = sizeof(availcmd) / sizeof(availcmd[0]);
 
